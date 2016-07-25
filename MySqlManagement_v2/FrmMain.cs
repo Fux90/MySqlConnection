@@ -8,12 +8,15 @@ using System.Text;
 using System.Windows.Forms;
 using MySqlManagement_v2.ConnectionManagement;
 using ScintillaNET;
+using System.Text.RegularExpressions;
 
 namespace MySqlManagement_v2
 {
     public partial class FrmMain : Form
     {
         public ConnectionManager ConnectionManager { get; set; }
+        private const string sqlCommentPattern = @"(\-\-)(.*)(\n|\r|\r\n)";
+        private readonly Regex rgxSqlComment = new Regex(sqlCommentPattern);
 
         public FrmMain()
         {
@@ -40,7 +43,7 @@ namespace MySqlManagement_v2
             scintilla1.Margins[0].Width = 20;
             
             scintilla1.Lexing.LexerLanguageMap["customSql"] = "sql";
-            scintilla1.ConfigurationManager.CustomLocation = System.IO.Path.GetFullPath("ScintillaNET.xml");
+            scintilla1.ConfigurationManager.CustomLocation = System.IO.Path.GetFullPath("sqlStyle.xml");
             scintilla1.ConfigurationManager.Language = "customSql";
             scintilla1.ConfigurationManager.Configure();
         }
@@ -52,8 +55,18 @@ namespace MySqlManagement_v2
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            executeToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.E;
-            executeToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+E";
+            RegisterShortcut(executeToolStripMenuItem, Keys.Control | Keys.E, "Ctrl+E");
+
+            RegisterShortcut(createStatementToolStripMenuItem, Keys.Control | Keys.D1, "Ctrl+1");
+            RegisterShortcut(deleteStatementToolStripMenuItem, Keys.Control | Keys.D2, "Ctrl+2");
+            RegisterShortcut(insertStatementToolStripMenuItem, Keys.Control | Keys.D3, "Ctrl+3");
+            RegisterShortcut(selectStatementToolStripMenuItem, Keys.Control | Keys.D4, "Ctrl+4");
+        }
+
+        private void RegisterShortcut(ToolStripMenuItem stripMenuItem, Keys keys, string label)
+        {
+            stripMenuItem.ShortcutKeys = keys;
+            stripMenuItem.ShortcutKeyDisplayString = label;
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -75,7 +88,9 @@ namespace MySqlManagement_v2
         {
             if (queriesString != null && queriesString != string.Empty)
             {
-                return queriesString.Trim().Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries).Select(str => str.Trim()).ToList();
+                return queriesString.Trim()
+                                    .Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries)
+                                    .Select(str => rgxSqlComment.Replace(str, "").Trim()).ToList();
             }
             return new List<string>();
         }
@@ -128,34 +143,65 @@ namespace MySqlManagement_v2
             txtConsoleOutput.Text = "";
         }
 
-        private void selectStatementToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            scintilla1.Text = SelectStatement();
-        }
+        #region MENU AUTOMATIC SQL INSERTION
 
         private void createStatementToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            scintilla1.Text += CreateStatement();
         }
 
         private void deleteStatementToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            scintilla1.Text += DeleteStatement();
         }
 
         private void insertStatementToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            scintilla1.Text += InsertStatement();
+        }
+        
+        private void selectStatementToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            scintilla1.Text += SelectStatement();
+        }
 
+        #endregion
+
+        private string CreateStatement()
+        {
+            var strB = new StringBuilder();
+            strB.AppendLine("-- Creation example");
+            strB.AppendLine("CREATE TABLE IF NOT EXISTS AAA(");
+            strB.AppendLine("\taKey INT NOT NULL,");
+            strB.AppendLine("\tPRIMARY KEY (aKey)");
+            strB.AppendLine(");");
+            return strB.ToString();
+        }
+
+        private string DeleteStatement()
+        {
+            var strB = new StringBuilder();
+            strB.AppendLine("-- Table deletion example");
+            strB.AppendLine("DROP TABLE AAA;");
+            return strB.ToString();
+        }
+
+        private string InsertStatement()
+        {
+            var strB = new StringBuilder();
+            strB.AppendLine("-- Insertion example");
+            strB.AppendLine("INSERT INTO AAA");
+            strB.AppendLine("VALUES(9);");
+            return strB.ToString();
         }
 
         private string SelectStatement()
         {
             var strB = new StringBuilder();
+            strB.AppendLine("-- Selection example");
             strB.AppendLine("SELECT * FROM AAA");
             strB.AppendLine("WHERE 1;");
             return strB.ToString();
         }
-
-        
     }
 }
