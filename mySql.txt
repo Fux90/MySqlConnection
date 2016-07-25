@@ -1,0 +1,8 @@
+Server: sql7.freemysqlhosting.net
+Name: sql7128528
+Username: sql7128528
+Password: 2q8qc6Nl2E
+Port number: 3306
+
+create table if not exists TableProva
+( k INT NOT NULL, value INT NOT NULL, PRIMARY KEY (k));
