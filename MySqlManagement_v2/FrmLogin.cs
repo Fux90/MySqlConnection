@@ -9,12 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MySqlManagement_v2.ConnectionManagement;
+using MySql.Data.MySqlClient;
 
 namespace MySqlManagement_v2
 {
     public partial class FrmLogin : Form
     {
-        public ConnectionManager ConnectionManager
+        public DbManager ConnectionManager
         {
             get;
             private set;
@@ -54,11 +55,12 @@ namespace MySqlManagement_v2
                                     string pwd, 
                                     string database)
         {
-            ConnectionManager = ConnectionManager.Connect(  host,
-                                                            UInt32.Parse(port),
-                                                            userName,
-                                                            pwd,
-                                                            database);
+            ConnectionManager = DbManager.Connect(      typeof(MySqlDbManager),
+                                                        host,
+                                                        UInt32.Parse(port),
+                                                        userName,
+                                                        pwd,
+                                                        database);
 
             if (ConnectionManager != null)
             {

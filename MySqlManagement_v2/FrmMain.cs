@@ -8,16 +8,13 @@ using System.Text;
 using System.Windows.Forms;
 using MySqlManagement_v2.ConnectionManagement;
 using ScintillaNET;
-using System.Text.RegularExpressions;
 
 namespace MySqlManagement_v2
 {
     public partial class FrmMain : Form
     {
-        public ConnectionManager ConnectionManager { get; set; }
-        private const string sqlCommentPattern = @"(\-\-)(.*)(\n|\r|\r\n)";
-        private readonly Regex rgxSqlComment = new Regex(sqlCommentPattern);
-
+        public DbManager ConnectionManager { get; set; }
+        
         public FrmMain()
         {
             InitializeComponent();
@@ -79,20 +76,9 @@ namespace MySqlManagement_v2
 
         private void executeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var querys = RetrieveQueries(scintilla1.Text);
+            var querys = DbManager.RetrieveQueries(scintilla1.Text);
             var queryResults = querys.Select(q => ConnectionManager.ExecureRawQuery(q)).ToList();
             queryResults.ForEach(qR => WriteQueryResult(qR));
-        }
-
-        private List<string> RetrieveQueries(string queriesString)
-        {
-            if (queriesString != null && queriesString != string.Empty)
-            {
-                return queriesString.Trim()
-                                    .Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries)
-                                    .Select(str => rgxSqlComment.Replace(str, "").Trim()).ToList();
-            }
-            return new List<string>();
         }
 
         private void WriteQueryResult(IQueryResult queryResult)

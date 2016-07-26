@@ -4,12 +4,28 @@ using System.Linq;
 using System.Text;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
+using System.Data.Common;
 
 namespace MySqlManagement_v2.ConnectionManagement
 {
-    public class ConnectionManager
+    public abstract class DbManager
     {
-        private static class QueryType
+        protected const string sqlCommentPattern = @"(\-\-)(.*)(\n|\r|\r\n)";
+        protected static readonly Regex rgxSqlComment = new Regex(sqlCommentPattern);
+
+        public static List<string> RetrieveQueries(string queriesString)
+        {
+            if (queriesString != null && queriesString != string.Empty)
+            {
+                return queriesString.Trim()
+                                    .Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries)
+                                    .Select(str => rgxSqlComment.Replace(str, "").Trim()).ToList();
+            }
+            return new List<string>();
+        }
+
+        protected static class QueryType
         {
             public const string SelectQuery = "SELECT";
             public const string CreateTableQuery = "CREATE";
@@ -17,8 +33,34 @@ namespace MySqlManagement_v2.ConnectionManagement
             public const string DeleteQuery = "DELETE";
         }
 
-        static ConnectionManager instance;
-        public static ConnectionManager Instance
+        public static DbManager Connect(Type dbType, string host, uint port, string userName, string pwd, string database)
+        {
+            var methodInfo = dbType.GetMethod("Connect");
+            if (methodInfo != null)
+            {
+                return (DbManager)methodInfo.Invoke(null,
+                                                    new object[]
+                                                    {
+                                                        host,
+                                                        port,
+                                                        userName,
+                                                        pwd,
+                                                        database
+                                                    }); //null - means calling static method
+            }
+
+            return null;
+        }
+
+        public abstract void OpenConnection();
+        public abstract void CloseConnection();
+    }
+
+    public class DbManager<ConnectionType> : DbManager 
+        where ConnectionType : DbConnection
+    {
+        static DbManager instance;
+        public static DbManager Instance
         {
             get
             {
@@ -26,20 +68,20 @@ namespace MySqlManagement_v2.ConnectionManagement
             }
         }
 
-        MySqlConnection connection;
+        ConnectionType connection;
 
-        private ConnectionManager(string connectionString)
+        protected DbManager(string connectionString)
         {
-            connection = new MySqlConnection();
+            connection = (ConnectionType)Activator.CreateInstance(typeof(ConnectionType)); //new MySqlConnection();
             connection.ConnectionString = connectionString;
         }
 
-        public static ConnectionManager Connect(string host, uint port, string userName, string pwd, string database)
+        public static DbManager Connect(string host, uint port, string userName, string pwd, string database)
         {
             var connectionString = CreateConnectionString(host, port, userName, pwd, database);
             if (instance == null)
             {
-                instance = new ConnectionManager(connectionString);
+                instance = new DbManager<ConnectionType>(connectionString);
             }
 
             try
@@ -68,12 +110,12 @@ namespace MySqlManagement_v2.ConnectionManagement
             return connectionStringBuilder.ToString();
         }
 
-        private void OpenConnection()
+        public override void OpenConnection()
         {
             connection.Open();
         }
 
-        public void CloseConnection()
+        public override void CloseConnection()
         {
             if (connection.State == System.Data.ConnectionState.Open)
             {

@@ -54,7 +54,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionManagement\ConnectionManager.cs" />
+    <Compile Include="ConnectionManagement\DBManager.cs" />
+    <Compile Include="ConnectionManagement\MySqlDbManager.cs" />
     <Compile Include="ConnectionManagement\QueryResult.cs" />
     <Compile Include="FrmLogin.cs">
       <SubType>Form</SubType>
@@ -99,6 +100,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="README_MySqlData.txt" />
     <Content Include="Scintilla\SciLexer.dll" />
     <Content Include="Scintilla\SciLexer64.dll" />
     <Content Include="Scintilla\ScintillaNET.dll" />
