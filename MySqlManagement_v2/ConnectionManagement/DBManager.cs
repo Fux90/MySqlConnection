@@ -36,7 +36,19 @@ namespace MySqlManagement_v2.ConnectionManagement
         public static DbManager Connect(Type dbType, string host, uint port, string userName, string pwd, string database)
         {
             var methodInfo = dbType.GetMethod("Connect");
-            if (methodInfo != null)
+            while (methodInfo == null)
+            {
+                if (dbType.BaseType != null && dbType.BaseType != typeof(object))
+                {
+                    return Connect(dbType.BaseType, host, port, userName, pwd, database);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            if (methodInfo != null) // Redundant
             {
                 return (DbManager)methodInfo.Invoke(null,
                                                     new object[]
@@ -54,10 +66,40 @@ namespace MySqlManagement_v2.ConnectionManagement
 
         public abstract void OpenConnection();
         public abstract void CloseConnection();
+
+        public IQueryResult ExecureRawQuery(string query)
+        {
+            if (query != null && query != string.Empty)
+            {
+                var trimmedQuery = query.Trim();
+                var type = trimmedQuery.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries)[0].ToUpper();
+                switch (type)
+                {
+                    case QueryType.SelectQuery:
+                        return ExecuteSelection(query);
+                    case QueryType.CreateTableQuery:
+                    case QueryType.InsertQuery:
+                    case QueryType.DeleteQuery:
+                        return ExecuteNoRowsRetrievedQuery(query);
+                    default:
+                        throw new Exception("");
+                }
+            }
+            else
+            {
+                return new QueryResult(QueryResponse.Error);
+            }
+        }
+
+        protected abstract IQueryResult ExecuteNoRowsRetrievedQuery(string query);
+        protected abstract IQueryResult ExecuteSelection(string query);
     }
 
-    public class DbManager<ConnectionType> : DbManager 
+    public class DbManager<ConnectionType, ConnectionStrBuilderType, CommandType, DataReaderType> : DbManager 
         where ConnectionType : DbConnection
+        where ConnectionStrBuilderType : DbConnectionStringBuilder
+        where CommandType : DbCommand
+        where DataReaderType : DbDataReader
     {
         static DbManager instance;
         public static DbManager Instance
@@ -72,7 +114,7 @@ namespace MySqlManagement_v2.ConnectionManagement
 
         protected DbManager(string connectionString)
         {
-            connection = (ConnectionType)Activator.CreateInstance(typeof(ConnectionType)); //new MySqlConnection();
+            connection = (ConnectionType)Activator.CreateInstance(typeof(ConnectionType));
             connection.ConnectionString = connectionString;
         }
 
@@ -81,7 +123,7 @@ namespace MySqlManagement_v2.ConnectionManagement
             var connectionString = CreateConnectionString(host, port, userName, pwd, database);
             if (instance == null)
             {
-                instance = new DbManager<ConnectionType>(connectionString);
+                instance = new DbManager<ConnectionType, ConnectionStrBuilderType, CommandType, DataReaderType>(connectionString);
             }
 
             try
@@ -97,15 +139,22 @@ namespace MySqlManagement_v2.ConnectionManagement
             return instance;
         }
 
-        private static string CreateConnectionString(string host, uint port, string userName, string pwd, string database)
+        protected static string CreateConnectionString(string host, uint port, string userName, string pwd, string database)
         {
-            var connectionStringBuilder = new MySqlConnectionStringBuilder();
-
-            connectionStringBuilder.Server = host;
-            connectionStringBuilder.UserID = userName;
-            connectionStringBuilder.Password = pwd;
-            connectionStringBuilder.Port = port;
-            connectionStringBuilder.Database = database;
+            dynamic connectionStringBuilder = (ConnectionStrBuilderType)Activator.CreateInstance(typeof(ConnectionStrBuilderType));
+            
+            try
+            {
+                connectionStringBuilder.Server = host;
+                connectionStringBuilder.UserID = userName;
+                connectionStringBuilder.Password = pwd;
+                connectionStringBuilder.Port = port;
+                connectionStringBuilder.Database = database;
+            }
+            catch
+            {
+                throw new Exception("Connection string doesn't implement proper interface.");
+            }
 
             return connectionStringBuilder.ToString();
         }
@@ -123,59 +172,35 @@ namespace MySqlManagement_v2.ConnectionManagement
             }
         }
 
-        public IQueryResult ExecureRawQuery(string query)
+        protected override IQueryResult ExecuteSelection(string query)
         {
-            if (query != null && query != string.Empty)
-            {
-                var trimmedQuery = query.Trim();
-                var type = trimmedQuery.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries)[0].ToUpper();
-                switch (type)
-                {
-                    case QueryType.SelectQuery:
-                        return ExecuteSelection(query);
-                    case QueryType.CreateTableQuery:
-                    case QueryType.InsertQuery:
-                    case QueryType.DeleteQuery: 
-                        return ExecuteNoRowsRetrievedQuery(query);
-                    default:
-                        throw new Exception("");
-                }
-            }
-            else
-            {
-                return new QueryResult(QueryResponse.Error);
-            }
-        }
-
-        private CursorQueryResult ExecuteSelection(string query)
-        {
-            CursorQueryResult res;
+            CursorQueryResult<DataReaderType> res;
 
             try
             {
-                MySqlCommand command = new MySqlCommand();
+                var command = (DbCommand)Activator.CreateInstance(typeof(CommandType));
                 command.Connection = connection;
                 command.CommandText = query;
 
                 var reader = command.ExecuteReader();
 
-                res = new CursorQueryResult(QueryResponse.Ok, reader);
+                res = new CursorQueryResult<DataReaderType>(QueryResponse.Ok, (DataReaderType)reader);
             }
             catch (Exception ex)
             {
-                res = new CursorQueryResult(ex.Message);
+                res = new CursorQueryResult<DataReaderType>(ex.Message);
             }
 
             return res;
         }
 
-        private QueryResult ExecuteNoRowsRetrievedQuery(string query)
+        protected override IQueryResult ExecuteNoRowsRetrievedQuery(string query)
         {
             QueryResult res;
 
             try
             {
-                MySqlCommand command = new MySqlCommand();
+                var command = (DbCommand)Activator.CreateInstance(typeof(CommandType));
                 command.Connection = connection;
                 command.CommandText = query;
 

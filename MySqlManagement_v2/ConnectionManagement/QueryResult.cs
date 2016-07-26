@@ -5,6 +5,7 @@ using System.Text;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Data;
+using System.Data.Common;
 
 namespace MySqlManagement_v2.ConnectionManagement
 {
@@ -123,7 +124,8 @@ namespace MySqlManagement_v2.ConnectionManagement
         public T Result { get; protected set; }
     }
 
-    public class CursorQueryResult : QueryResult<MySqlDataReader>
+    public class CursorQueryResult<DbDataRaderType> : QueryResult<DbDataRaderType>
+        where DbDataRaderType : DbDataReader
     {
         public class ColumnInfo
         {
@@ -183,7 +185,7 @@ namespace MySqlManagement_v2.ConnectionManagement
             }
         }
 
-        public CursorQueryResult(QueryResponse response, MySqlDataReader result)
+        public CursorQueryResult(QueryResponse response, DbDataRaderType result)
             : base(response, 0, result)
         {
             ParseContent = GetContentAsString;

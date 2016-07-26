@@ -6,7 +6,7 @@ using MySql.Data.MySqlClient;
 
 namespace MySqlManagement_v2.ConnectionManagement
 {
-    public class MySqlDbManager : DbManager<MySqlConnection>
+    public class MySqlDbManager : DbManager<MySqlConnection, MySqlConnectionStringBuilder, MySqlCommand, MySqlDataReader>
     {
         protected MySqlDbManager(string connectionString)
             : base(connectionString)

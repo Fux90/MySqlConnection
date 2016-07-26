@@ -153,6 +153,8 @@ namespace MySqlManagement_v2
 
         #endregion
 
+        #region AUTOMATIC SQL INSERTION
+
         private string CreateStatement()
         {
             var strB = new StringBuilder();
@@ -189,5 +191,7 @@ namespace MySqlManagement_v2
             strB.AppendLine("WHERE 1;");
             return strB.ToString();
         }
+
+        #endregion
     }
 }
