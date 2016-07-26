@@ -36,12 +36,18 @@ namespace MySqlManagement_v2.ConnectionManagement
         {
         }
 
-        protected delegate string ContentAsStringDelegate();
-        protected ContentAsStringDelegate ParseContent;
+        protected delegate string ToStringDelegate();
+        protected ToStringDelegate ParseContent;
+        protected ToStringDelegate ParseSchema;
+
+        public string SchemaAsString()
+        {
+            return ParseSchema == null ? string.Empty : ParseSchema();
+        }
 
         public string ContentAsString()
         {
-            return ParseContent == null ? "" : ParseContent();
+            return ParseContent == null ? string.Empty : ParseContent();
         }
 
         public override string ToString()
@@ -189,6 +195,7 @@ namespace MySqlManagement_v2.ConnectionManagement
             : base(response, 0, result)
         {
             ParseContent = GetContentAsString;
+            ParseSchema = GetSchemaAsString;
         }
 
         public CursorQueryResult(QueryResponse response, string errorMessage)
@@ -203,6 +210,19 @@ namespace MySqlManagement_v2.ConnectionManagement
 
         }
 
+        private string GetSchemaAsString()
+        {
+            var res = new StringBuilder();
+
+            var schema = Schema;
+            for (int i = 0; i < schema.Length; i++)
+            {
+                res.AppendFormat("{0}\t", schema[i].ColumnName);
+            }
+
+            return res.ToString();
+        }
+
         private string GetContentAsString()
         {
             var res = new StringBuilder();
@@ -211,9 +231,19 @@ namespace MySqlManagement_v2.ConnectionManagement
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 var row = dt.Rows[i];
-                res.AppendLine(row["D"].ToString());
+                res.AppendLine(ParseRow(Schema, row));
             }
 
+            return res.ToString();
+        }
+
+        private static string ParseRow(ColumnInfo[] Schema, DataRow row)
+        {
+            var res = new StringBuilder();
+            for (int i = 0; i < Schema.Length; i++)
+            {
+                res.AppendFormat("{0}\t", row[Schema[i].ColumnName]);
+            }
             return res.ToString();
         }
 

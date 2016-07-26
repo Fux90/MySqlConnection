@@ -58,6 +58,7 @@ namespace MySqlManagement_v2
             RegisterShortcut(deleteStatementToolStripMenuItem, Keys.Control | Keys.D2, "Ctrl+2");
             RegisterShortcut(insertStatementToolStripMenuItem, Keys.Control | Keys.D3, "Ctrl+3");
             RegisterShortcut(selectStatementToolStripMenuItem, Keys.Control | Keys.D4, "Ctrl+4");
+            RegisterShortcut(setPasswordToolStripMenuItem, Keys.Control | Keys.D5, "Ctrl+5");
         }
 
         private void RegisterShortcut(ToolStripMenuItem stripMenuItem, Keys keys, string label)
@@ -86,16 +87,20 @@ namespace MySqlManagement_v2
             var outputBuilder = new StringBuilder();
             var typeResult = typeof(IQueryResult);
 
+            // Response
             outputBuilder.AppendLine(queryResult.ToString());
-            outputBuilder.AppendLine(lilSep);
-
+            
+            // Content of select, if any
             var content = queryResult.ContentAsString();
             if (content != "")
             {
+                outputBuilder.AppendLine(queryResult.SchemaAsString());
                 outputBuilder.AppendLine(content);
             }
 
-            txtConsoleOutput.Text += outputBuilder.ToString();
+            outputBuilder.AppendLine(lilSep);
+
+            txtConsoleOutput.AppendText(outputBuilder.ToString());
         }
 
         private void outputToolStripMenuItem_Click(object sender, EventArgs e)
@@ -151,6 +156,11 @@ namespace MySqlManagement_v2
             scintilla1.Text += SelectStatement();
         }
 
+        private void setPasswordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            scintilla1.Text += SetPasswordStatement();
+        }
+
         #endregion
 
         #region AUTOMATIC SQL INSERTION
@@ -189,6 +199,14 @@ namespace MySqlManagement_v2
             strB.AppendLine("-- Selection example");
             strB.AppendLine("SELECT * FROM AAA");
             strB.AppendLine("WHERE 1;");
+            return strB.ToString();
+        }
+
+        private string SetPasswordStatement()
+        {
+            var strB = new StringBuilder();
+            strB.AppendLine("-- Set password");
+            strB.AppendLine("SET PASSWORD = PASSWORD('yourNewPassword');");
             return strB.ToString();
         }
 

@@ -36,15 +36,18 @@
             this.actionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.executeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createStatementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteStatementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.insertStatementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectStatementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.outputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtConsoleOutput = new System.Windows.Forms.TextBox();
             this.scintilla1 = new ScintillaNET.Scintilla();
-            this.insertStatementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.createStatementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteStatementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setPasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.loadFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.pagSql.SuspendLayout();
             this.tblSqlPage.SuspendLayout();
@@ -116,6 +119,8 @@
             // actionsToolStripMenuItem
             // 
             this.actionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadFileToolStripMenuItem,
+            this.toolStripMenuItem1,
             this.executeToolStripMenuItem,
             this.insertToolStripMenuItem,
             this.outputToolStripMenuItem});
@@ -126,7 +131,7 @@
             // executeToolStripMenuItem
             // 
             this.executeToolStripMenuItem.Name = "executeToolStripMenuItem";
-            this.executeToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.executeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.executeToolStripMenuItem.Text = "&Execute";
             this.executeToolStripMenuItem.Click += new System.EventHandler(this.executeToolStripMenuItem_Click);
             // 
@@ -136,15 +141,37 @@
             this.createStatementToolStripMenuItem,
             this.deleteStatementToolStripMenuItem,
             this.insertStatementToolStripMenuItem,
-            this.selectStatementToolStripMenuItem});
+            this.selectStatementToolStripMenuItem,
+            this.setPasswordToolStripMenuItem});
             this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
             this.insertToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.insertToolStripMenuItem.Text = "&Insert";
             // 
+            // createStatementToolStripMenuItem
+            // 
+            this.createStatementToolStripMenuItem.Name = "createStatementToolStripMenuItem";
+            this.createStatementToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.createStatementToolStripMenuItem.Text = "&Create statement";
+            this.createStatementToolStripMenuItem.Click += new System.EventHandler(this.createStatementToolStripMenuItem_Click);
+            // 
+            // deleteStatementToolStripMenuItem
+            // 
+            this.deleteStatementToolStripMenuItem.Name = "deleteStatementToolStripMenuItem";
+            this.deleteStatementToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.deleteStatementToolStripMenuItem.Text = "&Delete statement";
+            this.deleteStatementToolStripMenuItem.Click += new System.EventHandler(this.deleteStatementToolStripMenuItem_Click);
+            // 
+            // insertStatementToolStripMenuItem
+            // 
+            this.insertStatementToolStripMenuItem.Name = "insertStatementToolStripMenuItem";
+            this.insertStatementToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.insertStatementToolStripMenuItem.Text = "&Insert statement";
+            this.insertStatementToolStripMenuItem.Click += new System.EventHandler(this.insertStatementToolStripMenuItem_Click);
+            // 
             // selectStatementToolStripMenuItem
             // 
             this.selectStatementToolStripMenuItem.Name = "selectStatementToolStripMenuItem";
-            this.selectStatementToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.selectStatementToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.selectStatementToolStripMenuItem.Text = "&Select statement";
             this.selectStatementToolStripMenuItem.Click += new System.EventHandler(this.selectStatementToolStripMenuItem_Click);
             // 
@@ -155,7 +182,7 @@
             this.outputToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearToolStripMenuItem});
             this.outputToolStripMenuItem.Name = "outputToolStripMenuItem";
-            this.outputToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.outputToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.outputToolStripMenuItem.Text = "&Output";
             this.outputToolStripMenuItem.Click += new System.EventHandler(this.outputToolStripMenuItem_Click);
             // 
@@ -206,26 +233,23 @@
             this.scintilla1.Styles.Max.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla1.TabIndex = 3;
             // 
-            // insertStatementToolStripMenuItem
+            // setPasswordToolStripMenuItem
             // 
-            this.insertStatementToolStripMenuItem.Name = "insertStatementToolStripMenuItem";
-            this.insertStatementToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.insertStatementToolStripMenuItem.Text = "&Insert statement";
-            this.insertStatementToolStripMenuItem.Click += new System.EventHandler(this.insertStatementToolStripMenuItem_Click);
+            this.setPasswordToolStripMenuItem.Name = "setPasswordToolStripMenuItem";
+            this.setPasswordToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.setPasswordToolStripMenuItem.Text = "Set &Password";
+            this.setPasswordToolStripMenuItem.Click += new System.EventHandler(this.setPasswordToolStripMenuItem_Click);
             // 
-            // createStatementToolStripMenuItem
+            // toolStripMenuItem1
             // 
-            this.createStatementToolStripMenuItem.Name = "createStatementToolStripMenuItem";
-            this.createStatementToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.createStatementToolStripMenuItem.Text = "&Create statement";
-            this.createStatementToolStripMenuItem.Click += new System.EventHandler(this.createStatementToolStripMenuItem_Click);
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
             // 
-            // deleteStatementToolStripMenuItem
+            // loadFileToolStripMenuItem
             // 
-            this.deleteStatementToolStripMenuItem.Name = "deleteStatementToolStripMenuItem";
-            this.deleteStatementToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.deleteStatementToolStripMenuItem.Text = "&Delete statement";
-            this.deleteStatementToolStripMenuItem.Click += new System.EventHandler(this.deleteStatementToolStripMenuItem_Click);
+            this.loadFileToolStripMenuItem.Name = "loadFileToolStripMenuItem";
+            this.loadFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadFileToolStripMenuItem.Text = "&Load File";
             // 
             // FrmMain
             // 
@@ -269,6 +293,9 @@
         private System.Windows.Forms.ToolStripMenuItem createStatementToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteStatementToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem insertStatementToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem setPasswordToolStripMenuItem;
     }
 }
 

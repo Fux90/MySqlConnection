@@ -30,7 +30,8 @@ namespace MySqlManagement_v2.ConnectionManagement
             public const string SelectQuery = "SELECT";
             public const string CreateTableQuery = "CREATE";
             public const string InsertQuery = "INSERT";
-            public const string DeleteQuery = "DELETE";
+            public const string DeleteQuery = "DROP";
+            public const string SetQuery = "SET";
         }
 
         public static DbManager Connect(Type dbType, string host, uint port, string userName, string pwd, string database)
@@ -72,7 +73,9 @@ namespace MySqlManagement_v2.ConnectionManagement
             if (query != null && query != string.Empty)
             {
                 var trimmedQuery = query.Trim();
-                var type = trimmedQuery.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries)[0].ToUpper();
+                var queries = trimmedQuery.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                var type = queries[0].ToUpper();
+
                 switch (type)
                 {
                     case QueryType.SelectQuery:
@@ -80,6 +83,7 @@ namespace MySqlManagement_v2.ConnectionManagement
                     case QueryType.CreateTableQuery:
                     case QueryType.InsertQuery:
                     case QueryType.DeleteQuery:
+                    case QueryType.SetQuery:
                         return ExecuteNoRowsRetrievedQuery(query);
                     default:
                         throw new Exception("");
