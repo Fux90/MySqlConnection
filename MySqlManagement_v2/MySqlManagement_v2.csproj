@@ -71,6 +71,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\PictureItemContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\PictureItemContainer.Designer.cs">
+      <DependentUpon>PictureItemContainer.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\PictureItems.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -93,6 +99,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UI\PictureItemContainer.resx">
+      <DependentUpon>PictureItemContainer.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -111,6 +120,7 @@
     <EmbeddedResource Include="Resources\Images\pc.png" />
     <EmbeddedResource Include="Resources\Images\pc_monitor.png" />
     <EmbeddedResource Include="Resources\Images\user.png" />
+    <Content Include="Resources\Images\images.html" />
     <Content Include="Scintilla\SciLexer.dll" />
     <Content Include="Scintilla\SciLexer64.dll" />
     <Content Include="Scintilla\ScintillaNET.dll" />

@@ -49,7 +49,9 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtConsoleOutput = new System.Windows.Forms.TextBox();
             this.scintilla1 = new ScintillaNET.Scintilla();
+            this.casePictureItem1 = new MySqlManagement_v2.UI.CasePictureItem();
             this.lcdMonitorPictureItem1 = new MySqlManagement_v2.UI.LcdMonitorPictureItem();
+            this.userPictureItem1 = new MySqlManagement_v2.UI.UserPictureItem();
             this.tabControl1.SuspendLayout();
             this.pagMain.SuspendLayout();
             this.pagSql.SuspendLayout();
@@ -57,7 +59,9 @@
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scintilla1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.casePictureItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lcdMonitorPictureItem1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.userPictureItem1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -74,6 +78,8 @@
             // pagMain
             // 
             this.pagMain.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.pagMain.Controls.Add(this.userPictureItem1);
+            this.pagMain.Controls.Add(this.casePictureItem1);
             this.pagMain.Controls.Add(this.lcdMonitorPictureItem1);
             this.pagMain.Location = new System.Drawing.Point(4, 22);
             this.pagMain.Name = "pagMain";
@@ -257,17 +263,41 @@
             this.scintilla1.Styles.Max.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla1.TabIndex = 3;
             // 
+            // casePictureItem1
+            // 
+            this.casePictureItem1.CenterPosition = new System.Drawing.Point(50, 50);
+            this.casePictureItem1.ID = "???";
+            this.casePictureItem1.Image = ((System.Drawing.Image)(resources.GetObject("casePictureItem1.Image")));
+            this.casePictureItem1.Location = new System.Drawing.Point(462, 6);
+            this.casePictureItem1.Name = "casePictureItem1";
+            this.casePictureItem1.Size = new System.Drawing.Size(80, 178);
+            this.casePictureItem1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.casePictureItem1.TabIndex = 2;
+            this.casePictureItem1.TabStop = false;
+            // 
             // lcdMonitorPictureItem1
             // 
             this.lcdMonitorPictureItem1.CenterPosition = new System.Drawing.Point(50, 50);
             this.lcdMonitorPictureItem1.ID = "???";
             this.lcdMonitorPictureItem1.Image = ((System.Drawing.Image)(resources.GetObject("lcdMonitorPictureItem1.Image")));
-            this.lcdMonitorPictureItem1.Location = new System.Drawing.Point(304, 43);
+            this.lcdMonitorPictureItem1.Location = new System.Drawing.Point(353, 91);
             this.lcdMonitorPictureItem1.Name = "lcdMonitorPictureItem1";
-            this.lcdMonitorPictureItem1.Size = new System.Drawing.Size(95, 74);
+            this.lcdMonitorPictureItem1.Size = new System.Drawing.Size(103, 93);
             this.lcdMonitorPictureItem1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.lcdMonitorPictureItem1.TabIndex = 1;
             this.lcdMonitorPictureItem1.TabStop = false;
+            // 
+            // userPictureItem1
+            // 
+            this.userPictureItem1.CenterPosition = new System.Drawing.Point(50, 85);
+            this.userPictureItem1.ID = "???";
+            this.userPictureItem1.Image = ((System.Drawing.Image)(resources.GetObject("userPictureItem1.Image")));
+            this.userPictureItem1.Location = new System.Drawing.Point(108, 63);
+            this.userPictureItem1.Name = "userPictureItem1";
+            this.userPictureItem1.Size = new System.Drawing.Size(201, 121);
+            this.userPictureItem1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.userPictureItem1.TabIndex = 3;
+            this.userPictureItem1.TabStop = false;
             // 
             // FrmMain
             // 
@@ -289,7 +319,9 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scintilla1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.casePictureItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lcdMonitorPictureItem1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.userPictureItem1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -317,6 +349,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem setPasswordToolStripMenuItem;
         private UI.LcdMonitorPictureItem lcdMonitorPictureItem1;
+        private UI.CasePictureItem casePictureItem1;
+        private UI.UserPictureItem userPictureItem1;
     }
 }
 

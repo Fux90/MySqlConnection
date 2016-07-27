@@ -295,19 +295,57 @@ namespace MySqlManagement_v2.UI
             this.Font = new Font(FontFamily.GenericMonospace, 15.0f, FontStyle.Bold);
             this.ForeColor = Color.Red;
         }
+
+        protected virtual void ShowInfo()
+        {
+            MessageBox.Show(String.Format("Pic ID: {0}", ID));
+        }
+
+        protected override void OnClick(EventArgs e)
+        {
+            base.OnClick(e);
+            ShowInfo();
+        }
     }
 
     public static class SameImagePictureItemNames
     {
         public const string MonitorImg = "MySqlManagement_v2.Resources.Images.monitor.png";
+        public const string CaseImg = "MySqlManagement_v2.Resources.Images.pc.png";
+        public const string UserImg = "MySqlManagement_v2.Resources.Images.user.png";
     }
 
     public partial class LcdMonitorPictureItem : SameImagePictureItem
     {
+        private static readonly Size FavouriteSize = new Size(103, 93);
+
         public LcdMonitorPictureItem()
             : base(Image.FromStream(SameImagePictureItem.CurrentAssembly.GetManifestResourceStream(SameImagePictureItemNames.MonitorImg)))
         {
             this.CenterPosition = new Point(50, 50);
         }
     }
+
+    public partial class CasePictureItem : SameImagePictureItem
+    {
+        private static readonly Size FavouriteSize = new Size(80, 178);
+
+        public CasePictureItem()
+            : base(Image.FromStream(SameImagePictureItem.CurrentAssembly.GetManifestResourceStream(SameImagePictureItemNames.CaseImg)))
+        {
+            this.CenterPosition = new Point(50, 55);
+        }
+    }
+
+    public partial class UserPictureItem : SameImagePictureItem
+    {
+        private static readonly Size FavouriteSize = new Size(103, 93);
+
+        public UserPictureItem()
+            : base(Image.FromStream(SameImagePictureItem.CurrentAssembly.GetManifestResourceStream(SameImagePictureItemNames.UserImg)))
+        {
+            this.CenterPosition = new Point(50, 85);
+        }
+    }
+
 }
