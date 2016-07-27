@@ -28,32 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.pagMain = new System.Windows.Forms.TabPage();
             this.pagSql = new System.Windows.Forms.TabPage();
             this.tblSqlPage = new System.Windows.Forms.TableLayoutPanel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.actionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.executeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createStatementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteStatementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertStatementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectStatementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setPasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.outputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtConsoleOutput = new System.Windows.Forms.TextBox();
             this.scintilla1 = new ScintillaNET.Scintilla();
-            this.setPasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.loadFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lcdMonitorPictureItem1 = new MySqlManagement_v2.UI.LcdMonitorPictureItem();
             this.tabControl1.SuspendLayout();
+            this.pagMain.SuspendLayout();
             this.pagSql.SuspendLayout();
             this.tblSqlPage.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scintilla1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lcdMonitorPictureItem1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -70,6 +74,7 @@
             // pagMain
             // 
             this.pagMain.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.pagMain.Controls.Add(this.lcdMonitorPictureItem1);
             this.pagMain.Location = new System.Drawing.Point(4, 22);
             this.pagMain.Name = "pagMain";
             this.pagMain.Padding = new System.Windows.Forms.Padding(3);
@@ -128,10 +133,22 @@
             this.actionsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.actionsToolStripMenuItem.Text = "&Actions";
             // 
+            // loadFileToolStripMenuItem
+            // 
+            this.loadFileToolStripMenuItem.Name = "loadFileToolStripMenuItem";
+            this.loadFileToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.loadFileToolStripMenuItem.Text = "&Load File";
+            this.loadFileToolStripMenuItem.Click += new System.EventHandler(this.loadFileToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(118, 6);
+            // 
             // executeToolStripMenuItem
             // 
             this.executeToolStripMenuItem.Name = "executeToolStripMenuItem";
-            this.executeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.executeToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.executeToolStripMenuItem.Text = "&Execute";
             this.executeToolStripMenuItem.Click += new System.EventHandler(this.executeToolStripMenuItem_Click);
             // 
@@ -144,7 +161,7 @@
             this.selectStatementToolStripMenuItem,
             this.setPasswordToolStripMenuItem});
             this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
-            this.insertToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.insertToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.insertToolStripMenuItem.Text = "&Insert";
             // 
             // createStatementToolStripMenuItem
@@ -175,6 +192,13 @@
             this.selectStatementToolStripMenuItem.Text = "&Select statement";
             this.selectStatementToolStripMenuItem.Click += new System.EventHandler(this.selectStatementToolStripMenuItem_Click);
             // 
+            // setPasswordToolStripMenuItem
+            // 
+            this.setPasswordToolStripMenuItem.Name = "setPasswordToolStripMenuItem";
+            this.setPasswordToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.setPasswordToolStripMenuItem.Text = "Set &Password";
+            this.setPasswordToolStripMenuItem.Click += new System.EventHandler(this.setPasswordToolStripMenuItem_Click);
+            // 
             // outputToolStripMenuItem
             // 
             this.outputToolStripMenuItem.Checked = true;
@@ -182,7 +206,7 @@
             this.outputToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearToolStripMenuItem});
             this.outputToolStripMenuItem.Name = "outputToolStripMenuItem";
-            this.outputToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.outputToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.outputToolStripMenuItem.Text = "&Output";
             this.outputToolStripMenuItem.Click += new System.EventHandler(this.outputToolStripMenuItem_Click);
             // 
@@ -233,23 +257,17 @@
             this.scintilla1.Styles.Max.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla1.TabIndex = 3;
             // 
-            // setPasswordToolStripMenuItem
+            // lcdMonitorPictureItem1
             // 
-            this.setPasswordToolStripMenuItem.Name = "setPasswordToolStripMenuItem";
-            this.setPasswordToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.setPasswordToolStripMenuItem.Text = "Set &Password";
-            this.setPasswordToolStripMenuItem.Click += new System.EventHandler(this.setPasswordToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
-            // 
-            // loadFileToolStripMenuItem
-            // 
-            this.loadFileToolStripMenuItem.Name = "loadFileToolStripMenuItem";
-            this.loadFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.loadFileToolStripMenuItem.Text = "&Load File";
+            this.lcdMonitorPictureItem1.CenterPosition = new System.Drawing.Point(50, 50);
+            this.lcdMonitorPictureItem1.ID = "???";
+            this.lcdMonitorPictureItem1.Image = ((System.Drawing.Image)(resources.GetObject("lcdMonitorPictureItem1.Image")));
+            this.lcdMonitorPictureItem1.Location = new System.Drawing.Point(304, 43);
+            this.lcdMonitorPictureItem1.Name = "lcdMonitorPictureItem1";
+            this.lcdMonitorPictureItem1.Size = new System.Drawing.Size(95, 74);
+            this.lcdMonitorPictureItem1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.lcdMonitorPictureItem1.TabIndex = 1;
+            this.lcdMonitorPictureItem1.TabStop = false;
             // 
             // FrmMain
             // 
@@ -262,6 +280,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.tabControl1.ResumeLayout(false);
+            this.pagMain.ResumeLayout(false);
             this.pagSql.ResumeLayout(false);
             this.tblSqlPage.ResumeLayout(false);
             this.tblSqlPage.PerformLayout();
@@ -270,6 +289,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scintilla1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lcdMonitorPictureItem1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -296,6 +316,7 @@
         private System.Windows.Forms.ToolStripMenuItem loadFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem setPasswordToolStripMenuItem;
+        private UI.LcdMonitorPictureItem lcdMonitorPictureItem1;
     }
 }
 

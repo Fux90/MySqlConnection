@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using MySqlManagement_v2.ConnectionManagement;
 using ScintillaNET;
+using System.IO;
+using MySqlManagement_v2.UI;
 
 namespace MySqlManagement_v2
 {
@@ -33,6 +35,12 @@ namespace MySqlManagement_v2
             }
 
             InitScintillaTextBox();
+
+#if DEBUG
+            var lcd = new LcdMonitorPictureItem();
+            this.Controls.Add(lcd);
+            lcd.ID = "PC";
+#endif
         }
 
         private void InitScintillaTextBox()
@@ -129,9 +137,65 @@ namespace MySqlManagement_v2
 
         const string lilSep = "-------------------------";
 
+        private void loadFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string loadedFile;
+            string errorMsg;
+            var strB = new StringBuilder();
+
+            if (loadSqlFile(scintilla1, out loadedFile, out errorMsg))
+            {
+                var msg = "Succesfully loaded";
+                if (errorMsg != null && errorMsg != string.Empty)
+                {
+                    msg = "Error in loading";
+                }
+                
+                strB.AppendFormat(  "{0} [{1}]{2}", 
+                                    msg, 
+                                    loadedFile, 
+                                    errorMsg == null ? string.Empty : errorMsg);
+
+                strB.AppendLine(lilSep);
+                txtConsoleOutput.Text = strB.ToString();
+            }
+        }
+
+        private bool loadSqlFile(   Scintilla scintilla1, 
+                                    out string loadedFile, 
+                                    out string errorMsg)
+        {
+            var res = false;
+            loadedFile = string.Empty;
+            errorMsg = string.Empty;
+
+            using (var oDlg = new OpenFileDialog())
+            {
+                oDlg.Multiselect = false;
+                oDlg.Filter = "Sql Files|*.sql|Text Files|*.txt|All Files|*.*";
+                if (oDlg.ShowDialog() == DialogResult.OK)
+                {
+                    res = true;
+                    loadedFile = Path.GetFileName(oDlg.FileName);
+
+                    try
+                    {
+                        scintilla1.Text = File.ReadAllText(oDlg.FileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        errorMsg = ex.Message;
+                        res = false;
+                    }
+                }
+            }
+
+            return res;
+        }
+
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtConsoleOutput.Text = "";
+            txtConsoleOutput.Text = string.Empty;
         }
 
         #region MENU AUTOMATIC SQL INSERTION
@@ -211,5 +275,10 @@ namespace MySqlManagement_v2
         }
 
         #endregion
+
+        private void pictureItem1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -16,12 +16,12 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -71,6 +71,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\PictureItems.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\PictureItems.Designer.cs">
+      <DependentUpon>PictureItems.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="FrmLogin.resx">
       <DependentUpon>FrmLogin.cs</DependentUpon>
     </EmbeddedResource>
@@ -101,6 +107,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="README_MySqlData.txt" />
+    <EmbeddedResource Include="Resources\Images\monitor.png" />
+    <EmbeddedResource Include="Resources\Images\pc.png" />
+    <EmbeddedResource Include="Resources\Images\pc_monitor.png" />
+    <EmbeddedResource Include="Resources\Images\user.png" />
     <Content Include="Scintilla\SciLexer.dll" />
     <Content Include="Scintilla\SciLexer64.dll" />
     <Content Include="Scintilla\ScintillaNET.dll" />
@@ -108,6 +118,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /E /Y "$(ProjectDir)Scintilla" "$(TargetDir)"</PostBuildEvent>
