@@ -37,9 +37,9 @@
             // 
             this.grpMain.Controls.Add(this.pnlMain);
             this.grpMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpMain.Location = new System.Drawing.Point(0, 0);
+            this.grpMain.Location = new System.Drawing.Point(2, 2);
             this.grpMain.Name = "grpMain";
-            this.grpMain.Size = new System.Drawing.Size(171, 183);
+            this.grpMain.Size = new System.Drawing.Size(167, 179);
             this.grpMain.TabIndex = 0;
             this.grpMain.TabStop = false;
             this.grpMain.Text = "Items";
@@ -50,10 +50,11 @@
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Location = new System.Drawing.Point(3, 16);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(165, 164);
+            this.pnlMain.Size = new System.Drawing.Size(161, 160);
             this.pnlMain.TabIndex = 0;
             this.pnlMain.DragDrop += new System.Windows.Forms.DragEventHandler(this.pnlMain_DragDrop);
             this.pnlMain.DragEnter += new System.Windows.Forms.DragEventHandler(this.pnlMain_DragEnter);
+            this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
             // 
             // PictureItemContainer
             // 
@@ -62,6 +63,7 @@
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.grpMain);
             this.Name = "PictureItemContainer";
+            this.Padding = new System.Windows.Forms.Padding(2);
             this.Size = new System.Drawing.Size(171, 183);
             this.grpMain.ResumeLayout(false);
             this.ResumeLayout(false);

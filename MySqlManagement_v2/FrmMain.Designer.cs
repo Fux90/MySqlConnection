@@ -49,10 +49,11 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtConsoleOutput = new System.Windows.Forms.TextBox();
             this.scintilla1 = new ScintillaNET.Scintilla();
+            this.pictureItemContainer1 = new MySqlManagement_v2.UI.PictureItemContainer();
             this.userPictureItem1 = new MySqlManagement_v2.UI.UserPictureItem();
             this.casePictureItem1 = new MySqlManagement_v2.UI.CasePictureItem();
             this.lcdMonitorPictureItem1 = new MySqlManagement_v2.UI.LcdMonitorPictureItem();
-            this.pictureItemContainer1 = new MySqlManagement_v2.UI.PictureItemContainer();
+            this.pictureItemContainer2 = new MySqlManagement_v2.UI.PictureItemContainer();
             this.tabControl1.SuspendLayout();
             this.pagMain.SuspendLayout();
             this.pagSql.SuspendLayout();
@@ -73,12 +74,13 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(746, 424);
+            this.tabControl1.Size = new System.Drawing.Size(746, 462);
             this.tabControl1.TabIndex = 0;
             // 
             // pagMain
             // 
             this.pagMain.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.pagMain.Controls.Add(this.pictureItemContainer2);
             this.pagMain.Controls.Add(this.pictureItemContainer1);
             this.pagMain.Controls.Add(this.userPictureItem1);
             this.pagMain.Controls.Add(this.casePictureItem1);
@@ -86,7 +88,7 @@
             this.pagMain.Location = new System.Drawing.Point(4, 22);
             this.pagMain.Name = "pagMain";
             this.pagMain.Padding = new System.Windows.Forms.Padding(3);
-            this.pagMain.Size = new System.Drawing.Size(738, 398);
+            this.pagMain.Size = new System.Drawing.Size(738, 436);
             this.pagMain.TabIndex = 0;
             this.pagMain.Text = "Main";
             // 
@@ -265,12 +267,22 @@
             this.scintilla1.Styles.Max.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla1.TabIndex = 3;
             // 
+            // pictureItemContainer1
+            // 
+            this.pictureItemContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureItemContainer1.CellHeight = 80F;
+            this.pictureItemContainer1.CellWidth = 80F;
+            this.pictureItemContainer1.Location = new System.Drawing.Point(392, 137);
+            this.pictureItemContainer1.Name = "pictureItemContainer1";
+            this.pictureItemContainer1.Size = new System.Drawing.Size(329, 293);
+            this.pictureItemContainer1.TabIndex = 4;
+            // 
             // userPictureItem1
             // 
             this.userPictureItem1.CenterPosition = new System.Drawing.Point(50, 85);
             this.userPictureItem1.ID = "???";
             this.userPictureItem1.Image = ((System.Drawing.Image)(resources.GetObject("userPictureItem1.Image")));
-            this.userPictureItem1.Location = new System.Drawing.Point(108, 63);
+            this.userPictureItem1.Location = new System.Drawing.Point(94, 10);
             this.userPictureItem1.Name = "userPictureItem1";
             this.userPictureItem1.Size = new System.Drawing.Size(201, 121);
             this.userPictureItem1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -282,7 +294,7 @@
             this.casePictureItem1.CenterPosition = new System.Drawing.Point(50, 50);
             this.casePictureItem1.ID = "???";
             this.casePictureItem1.Image = ((System.Drawing.Image)(resources.GetObject("casePictureItem1.Image")));
-            this.casePictureItem1.Location = new System.Drawing.Point(462, 6);
+            this.casePictureItem1.Location = new System.Drawing.Point(8, 6);
             this.casePictureItem1.Name = "casePictureItem1";
             this.casePictureItem1.Size = new System.Drawing.Size(80, 178);
             this.casePictureItem1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -294,28 +306,28 @@
             this.lcdMonitorPictureItem1.CenterPosition = new System.Drawing.Point(50, 50);
             this.lcdMonitorPictureItem1.ID = "???";
             this.lcdMonitorPictureItem1.Image = ((System.Drawing.Image)(resources.GetObject("lcdMonitorPictureItem1.Image")));
-            this.lcdMonitorPictureItem1.Location = new System.Drawing.Point(353, 91);
+            this.lcdMonitorPictureItem1.Location = new System.Drawing.Point(332, 10);
             this.lcdMonitorPictureItem1.Name = "lcdMonitorPictureItem1";
             this.lcdMonitorPictureItem1.Size = new System.Drawing.Size(103, 93);
             this.lcdMonitorPictureItem1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.lcdMonitorPictureItem1.TabIndex = 1;
             this.lcdMonitorPictureItem1.TabStop = false;
             // 
-            // pictureItemContainer1
+            // pictureItemContainer2
             // 
-            this.pictureItemContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureItemContainer1.Columns = 1;
-            this.pictureItemContainer1.Location = new System.Drawing.Point(234, 229);
-            this.pictureItemContainer1.Name = "pictureItemContainer1";
-            this.pictureItemContainer1.Rows = 1;
-            this.pictureItemContainer1.Size = new System.Drawing.Size(196, 148);
-            this.pictureItemContainer1.TabIndex = 4;
+            this.pictureItemContainer2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureItemContainer2.CellHeight = 80F;
+            this.pictureItemContainer2.CellWidth = 80F;
+            this.pictureItemContainer2.Location = new System.Drawing.Point(57, 137);
+            this.pictureItemContainer2.Name = "pictureItemContainer2";
+            this.pictureItemContainer2.Size = new System.Drawing.Size(329, 293);
+            this.pictureItemContainer2.TabIndex = 5;
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(746, 424);
+            this.ClientSize = new System.Drawing.Size(746, 462);
             this.Controls.Add(this.tabControl1);
             this.Name = "FrmMain";
             this.Text = "Main Dashboard";
@@ -364,6 +376,7 @@
         private UI.CasePictureItem casePictureItem1;
         private UI.UserPictureItem userPictureItem1;
         private UI.PictureItemContainer pictureItemContainer1;
+        private UI.PictureItemContainer pictureItemContainer2;
     }
 }
 

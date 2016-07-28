@@ -121,7 +121,9 @@
     <EmbeddedResource Include="Resources\Images\pc.png" />
     <EmbeddedResource Include="Resources\Images\pc_monitor.png" />
     <EmbeddedResource Include="Resources\Images\user.png" />
-    <Content Include="Resources\Images\images.html" />
+    <Content Include="Resources\Images\images.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Scintilla\SciLexer.dll" />
     <Content Include="Scintilla\SciLexer64.dll" />
     <Content Include="Scintilla\ScintillaNET.dll" />

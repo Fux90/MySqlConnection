@@ -12,34 +12,33 @@ namespace MySqlManagement_v2.UI
 {
     public partial class PictureItemContainer : UserControl
     {
-        private int columns;
-        private int rows;
         public int Columns 
         {
             get
             {
-                return Math.Max(1, columns);
-            }
-
-            set
-            {
-                columns = value;
+                return (int)Math.Ceiling((float)pnlMain.Width / CellWidth);
             }
         }
+
         public int Rows
         {
             get
             {
-                return Math.Max(1, rows);
-            }
-
-            set
-            {
-                rows = value;
+                return (int)Math.Ceiling((float)pnlMain.Height / CellHeight);
             }
         }
 
-        public string Text
+        public float CellWidth { get; set; }
+        public float CellHeight { get; set; }
+        public Size CellSize
+        {
+            get
+            {
+                return new Size((int)CellWidth, (int)CellHeight);
+            }
+        }
+
+        public override string Text
         {
             get
             {
@@ -63,7 +62,23 @@ namespace MySqlManagement_v2.UI
             if (IsPictureItem(e, out t))
             {
                 var ctrl = (PictureItem)e.Data.GetData(t);
-                pnlMain.Controls.Add(ctrl);
+                if (!pnlMain.Controls.Contains(ctrl))
+                {
+                    pnlMain.Controls.Add(ctrl);
+                    UpdateChildrens(this);
+                }
+            }
+        }
+
+        private static void UpdateChildrens(Control parent)
+        {
+            foreach (Control ctrl in parent.Controls)
+            {
+                ctrl.Invalidate();
+                if (ctrl.HasChildren)
+                {
+                    UpdateChildrens(ctrl);
+                }
             }
         }
 
@@ -102,6 +117,77 @@ namespace MySqlManagement_v2.UI
         {
             Type dummy;
             return IsPictureItem(e, out dummy);
+        }
+
+        private void pnlMain_Paint(object sender, PaintEventArgs e)
+        {
+            var g = e.Graphics;
+
+            if (DesignMode)
+            {
+                var dashedPen = new Pen(Color.LightGray, 1.0f);
+                dashedPen.DashPattern = new float[]{ 3.0f, 1.0f };
+
+                drawGridding(g, dashedPen);
+            }
+
+            var _size = CellSize;
+
+            var rows = Rows;
+            var cols = Columns;
+            var currCol = 0;
+            var currY = 0.0f;
+            var currX = 0.0f;
+
+            foreach (Control ctrl in pnlMain.Controls)
+            {
+                if (currCol == cols)
+                {
+                    currX = 0;
+                    currY += CellHeight;
+                    currCol++;
+                }
+
+                ctrl.Size = _size;
+                ctrl.Location = new Point((int)currX, (int)currY);
+
+                currX += CellWidth;
+                currCol++;    
+            }
+        }
+
+        private void drawGridding(Graphics g, Pen pen)
+        {
+            horizontalLines(g, pen, Rows);
+            verticalLines(g, pen, Columns);
+        }
+
+        private void horizontalLines(Graphics g, Pen pen, int rows)
+        {
+            var ptA = new PointF(0, CellHeight);
+            var ptB = new PointF(pnlMain.Width, CellHeight);
+
+            for (int i = 0; i < rows; i++)
+            {
+                g.DrawLine(pen, ptA, ptB);
+
+                ptA.Y += CellHeight;
+                ptB.Y += CellHeight;
+            }
+        }
+
+        private void verticalLines(Graphics g, Pen pen, int columns)
+        {
+            var ptA = new PointF(CellWidth, 0);
+            var ptB = new PointF(CellWidth, pnlMain.Height);
+
+            for (int i = 0; i < columns; i++)
+            {
+                g.DrawLine(pen, ptA, ptB);
+
+                ptA.X += CellWidth;
+                ptB.X += CellWidth;
+            }
         }
     }
 }
