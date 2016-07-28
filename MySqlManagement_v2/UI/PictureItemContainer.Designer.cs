@@ -28,19 +28,49 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.grpMain = new System.Windows.Forms.GroupBox();
+            this.pnlMain = new System.Windows.Forms.Panel();
+            this.grpMain.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // grpMain
+            // 
+            this.grpMain.Controls.Add(this.pnlMain);
+            this.grpMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpMain.Location = new System.Drawing.Point(0, 0);
+            this.grpMain.Name = "grpMain";
+            this.grpMain.Size = new System.Drawing.Size(171, 183);
+            this.grpMain.TabIndex = 0;
+            this.grpMain.TabStop = false;
+            this.grpMain.Text = "Items";
+            // 
+            // pnlMain
+            // 
+            this.pnlMain.AllowDrop = true;
+            this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlMain.Location = new System.Drawing.Point(3, 16);
+            this.pnlMain.Name = "pnlMain";
+            this.pnlMain.Size = new System.Drawing.Size(165, 164);
+            this.pnlMain.TabIndex = 0;
+            this.pnlMain.DragDrop += new System.Windows.Forms.DragEventHandler(this.pnlMain_DragDrop);
+            this.pnlMain.DragEnter += new System.Windows.Forms.DragEventHandler(this.pnlMain_DragEnter);
             // 
             // PictureItemContainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this.grpMain);
             this.Name = "PictureItemContainer";
-            this.Size = new System.Drawing.Size(140, 183);
+            this.Size = new System.Drawing.Size(171, 183);
+            this.grpMain.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.GroupBox grpMain;
+        private System.Windows.Forms.Panel pnlMain;
     }
 }

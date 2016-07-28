@@ -71,6 +71,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\IDraggable.cs" />
     <Compile Include="UI\PictureItemContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>

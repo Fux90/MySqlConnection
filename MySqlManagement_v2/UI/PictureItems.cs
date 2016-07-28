@@ -8,10 +8,11 @@ using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
+using System.Runtime.Serialization;
 
 namespace MySqlManagement_v2.UI
 {
-    public partial class PictureItem : PictureBox
+    public partial class PictureItem : PictureBox, IDraggable
     {
         private const string unkownID = "???";
         public static readonly Point defaultCenterPosition = new Point(50, 50);
@@ -183,6 +184,10 @@ namespace MySqlManagement_v2.UI
             }
         }
 
+        public bool Dragged { get; private set; }
+        private Point? positionOnDragBegin;
+        private Point? positionOffset;
+
         #region CONSTRUCTORS
 
         public PictureItem()
@@ -235,6 +240,24 @@ namespace MySqlManagement_v2.UI
             ptRectToRecompute = true;
         }
 
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            this.DoDragDrop(this, DragDropEffects.Copy | DragDropEffects.Move);
+            OnBeginDrag(e);
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            base.OnMouseUp(e);
+            OnEndDrag(e);
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+            //MoveOnCursor();
+        }
         protected override void OnPaint(PaintEventArgs pe)
         {
             base.OnPaint(pe);
@@ -257,6 +280,54 @@ namespace MySqlManagement_v2.UI
             };
 
             g.DrawString(ID, Font, ForeColorBrush, stringOrigin);
+        }
+
+        public void MoveOnCursor()
+        {
+            if (Dragged)
+            {
+                var newPos = this.PointToClient(Cursor.Position);
+                newPos.Offset((Point)positionOffset);
+                this.Location = newPos;
+            }
+        }
+
+        public event EventHandler<MouseEventArgs> BeginDrag;
+        public event EventHandler<MouseEventArgs> EndDrag;
+
+        protected void OnBeginDrag(MouseEventArgs e)
+        {
+            var beginDrag = BeginDrag;
+            Dragged = true;
+            positionOnDragBegin = this.Location;
+            var relativeCursorPos = this.PointToClient(Cursor.Position);
+            positionOffset = new Point()
+            {
+                X = this.Location.X - relativeCursorPos.X,
+                Y = this.Location.Y - relativeCursorPos.Y,
+            };
+            if (beginDrag != null)
+            {
+                beginDrag(this, e);
+            }
+        }
+
+        protected void OnEndDrag(MouseEventArgs e)
+        {
+            var endDrag = EndDrag;
+            Dragged = false;
+            var oldParent = this.Parent;
+            if (endDrag != null)
+            {
+                endDrag(this, e);
+            }
+            if (oldParent == this.Parent)
+            {
+                this.Location = (Point)positionOnDragBegin;
+            }
+
+            positionOnDragBegin = null;
+            positionOffset = null;
         }
     }
 
