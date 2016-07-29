@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using MySqlManagement_v2.ConnectionManagement;
 using MySql.Data.MySqlClient;
+using MySqlManagement_v2.UI;
 
 namespace MySqlManagement_v2
 {
@@ -25,50 +26,25 @@ namespace MySqlManagement_v2
             DefaultValues();
 
             this.DialogResult = DialogResult.Abort;
+            dbLoginUserControl1.OpenedConnection += new EventHandler<DbConnectionEventArgs>(dbLoginUserControl1_OpenedConnection);
         }
 
         private void DefaultValues()
         {
 #if DEBUG
-            txtUserName.Text = "sql7128528";
-            txtPassword.Text = "2q8qc6Nl2E";
+            dbLoginUserControl1.UserName = "sql7128528";
+            //dbLoginUserControl1.Password = "2q8qc6Nl2E";
 #endif
-            txtHost.Text = Properties.Settings.Default.Host;
-            txtPort.Text = Properties.Settings.Default.Port.ToString();
-            txtDbName.Text = Properties.Settings.Default.Database;
+            dbLoginUserControl1.Host = Properties.Settings.Default.Host;
+            dbLoginUserControl1.Port = Properties.Settings.Default.Port.ToString();
+            dbLoginUserControl1.DbName = Properties.Settings.Default.Database;
         }
 
-        private void btnConnect_Click(object sender, EventArgs e)
+        private void dbLoginUserControl1_OpenedConnection(object sender, DbConnectionEventArgs e)
         {
-            ConnectToDb(txtHost.Text,
-                        txtPort.Text,
-                        txtUserName.Text,
-                        txtPassword.Text,
-                        txtDbName.Text);
-        }
-
-        private void ConnectToDb(   string host, 
-                                    string port, 
-                                    string userName, 
-                                    string pwd, 
-                                    string database)
-        {
-            ConnectionManager = DbManager.Connect(      typeof(MySqlDbManager),
-                                                        host,
-                                                        UInt32.Parse(port),
-                                                        userName,
-                                                        pwd,
-                                                        database);
-
-            if (ConnectionManager != null)
-            {
-                MessageBox.Show(String.Format("Correctly connected to DB[{0}]", database),
-                                "Connected",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
-                this.DialogResult = DialogResult.OK;
-                this.Close();
-            }
+            ConnectionManager = e.ConnectionManager;
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }
