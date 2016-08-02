@@ -37,14 +37,84 @@ namespace MySqlManagement_v2
             InitScintillaTextBox();
 
 #if DEBUG
-            for (int i = 0; i < 5; i++)
+            var numItems = 5;
+            var rnd = new Random();
+
+            var countUser = 0;
+            var countCase = 0;
+            var countMonitor = 0;
+
+            for (int i = 0; i < numItems; i++)
             {
-                var lcd = new LcdMonitorPictureItem();
-                this.pictureItemContainer1.Add(lcd);
-                lcd.ID = String.Format("PC#{0}", i);    
+                PictureItem pic = null;
+                var id = 0;
+                var t= 1; //rnd.Next(3)
+
+                switch (t)
+                {
+                    case 0:
+                        pic = new UserPictureItem();
+                        id = countUser++;
+                        break;
+                    case 1:
+                        pic = new LcdMonitorPictureItem();
+                        id = countMonitor++;
+                        break;
+                    case 2:
+                        pic = new CasePictureItem();
+                        id = countCase++;
+                        break;
+                }
+
+                this.pictureItemContainer1.Add(pic);
+                pic.ID = String.Format("#{0}", id);    
             }
+
+            var btn = new Button();
+            btn.Text = "Click me";
+            btn.Click += new EventHandler(btn_Click);
+
+            pagMain.Controls.Add(btn);
+            btn.Location = new Point(5, 5);
 #endif
         }
+
+#if DEBUG
+        void btn_Click(object sender, EventArgs e)
+        {
+            var rnd = new Random();
+
+            var countUser = 0;
+            var countCase = 0;
+            var countMonitor = 0;
+
+            for (int i = 0; i < 30; i++)
+            {
+                PictureItem pic = null;
+                var id = 0;
+                var t = 2; //rnd.Next(3)
+
+                switch (t)
+                {
+                    case 0:
+                        pic = new UserPictureItem();
+                        id = countUser++;
+                        break;
+                    case 1:
+                        pic = new LcdMonitorPictureItem();
+                        id = countMonitor++;
+                        break;
+                    case 2:
+                        pic = new CasePictureItem();
+                        id = countCase++;
+                        break;
+                }
+
+                this.pictureItemContainer1.Add(pic);
+                pic.ID = String.Format("#{0}", id);
+            }
+        }
+#endif
 
         private void InitScintillaTextBox()
         {

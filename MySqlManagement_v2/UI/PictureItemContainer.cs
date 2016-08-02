@@ -16,7 +16,7 @@ namespace MySqlManagement_v2.UI
         {
             get
             {
-                return (int)Math.Ceiling((float)pnlMain.Width / CellWidth);
+                return (int)Math.Floor((float)pnlMain.ClientRectangle.Width / CellWidth);
             }
         }
 
@@ -24,7 +24,15 @@ namespace MySqlManagement_v2.UI
         {
             get
             {
-                return (int)Math.Ceiling((float)pnlMain.Height / CellHeight);
+                return (int)Math.Ceiling(((float)pnlMain.Controls.Count/(float)Columns));
+            }
+        }
+
+        public int VisibleRows
+        {
+            get
+            {
+                return (int)Math.Ceiling((float)pnlMain.ClientRectangle.Height / CellHeight);
             }
         }
 
@@ -54,6 +62,12 @@ namespace MySqlManagement_v2.UI
         public PictureItemContainer()
         {
             InitializeComponent();
+            InitializeScrollbar();
+        }
+
+        private void InitializeScrollbar()
+        {
+            pnlMain.VerticalScroll.Maximum = 150;
         }
         
         private void pnlMain_DragDrop(object sender, DragEventArgs e)
@@ -144,18 +158,19 @@ namespace MySqlManagement_v2.UI
             var currY = 0.0f;
             var currX = 0.0f;
 
+            currY -= vScrollBar1.Value;
+
             foreach (Control ctrl in pnlMain.Controls)
             {
                 if (currCol == cols)
                 {
                     currX = 0;
                     currY += CellHeight;
-                    currCol++;
+                    currCol = 0;
                 }
 
                 ctrl.Size = _size;
                 ctrl.Location = new Point((int)currX, (int)currY);
-
                 currX += CellWidth;
                 currCol++;    
             }
@@ -193,6 +208,46 @@ namespace MySqlManagement_v2.UI
                 ptA.X += CellWidth;
                 ptB.X += CellWidth;
             }
+        }
+
+        private void pnlMain_MouseClick(object sender, MouseEventArgs e)
+        {
+            MessageBox.Show(String.Format("{0}{3}{1}{3}{2}", pnlMain.VerticalScroll.Value,
+                            pnlMain.VerticalScroll.Minimum,
+                            pnlMain.VerticalScroll.Maximum,
+                            Environment.NewLine));
+        }
+
+        private void pnlMain_ControlAdded(object sender, ControlEventArgs e)
+        {
+            SetScrollOptions();
+        }
+
+        private void pnlMain_ControlRemoved(object sender, ControlEventArgs e)
+        {
+            SetScrollOptions();
+        }
+
+        private void SetScrollOptions()
+        {
+            var r = this.Rows;
+            var vR = this.VisibleRows;
+            if (r < vR)
+            {
+                tableLayoutPanel1.ColumnStyles[1].Width = 0;
+                this.vScrollBar1.Value = 0;
+                this.vScrollBar1.Maximum = 0;
+            }
+            else
+            {
+                tableLayoutPanel1.ColumnStyles[1].Width = 20;
+                this.vScrollBar1.Maximum = Math.Max(0, (int)Math.Ceiling((r - vR + 1) * CellHeight));
+            }
+        }
+
+        private void vScrollBar1_ValueChanged(object sender, EventArgs e)
+        {
+            pnlMain.Invalidate();
         }
     }
 }
