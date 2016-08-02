@@ -37,9 +37,12 @@ namespace MySqlManagement_v2
             InitScintillaTextBox();
 
 #if DEBUG
-            var lcd = new LcdMonitorPictureItem();
-            this.Controls.Add(lcd);
-            lcd.ID = "PC";
+            for (int i = 0; i < 5; i++)
+            {
+                var lcd = new LcdMonitorPictureItem();
+                this.pictureItemContainer1.Add(lcd);
+                lcd.ID = String.Format("PC#{0}", i);    
+            }
 #endif
         }
 

@@ -62,11 +62,16 @@ namespace MySqlManagement_v2.UI
             if (IsPictureItem(e, out t))
             {
                 var ctrl = (PictureItem)e.Data.GetData(t);
-                if (!pnlMain.Controls.Contains(ctrl))
-                {
-                    pnlMain.Controls.Add(ctrl);
-                    UpdateChildrens(this);
-                }
+                Add(ctrl);
+            }
+        }
+
+        public void Add(PictureItem ctrl)
+        {
+            if (!pnlMain.Controls.Contains(ctrl))
+            {
+                pnlMain.Controls.Add(ctrl);
+                UpdateChildrens(this);
             }
         }
 

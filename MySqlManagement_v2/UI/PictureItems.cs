@@ -333,12 +333,12 @@ namespace MySqlManagement_v2.UI
 
     public partial class SameImagePictureItem : PictureItem
     {
-        public static Image classImage;
+        public static Dictionary<Type, Image> classImage;
         public Image ClassImage
         {
             get
             {
-                return SameImagePictureItem.classImage;
+                return SameImagePictureItem.classImage[this.GetType()];
             }
         }
 
@@ -352,13 +352,18 @@ namespace MySqlManagement_v2.UI
         {
             if (classImage == null)
             {
+                classImage = new Dictionary<Type, Image>();
+            }
+            var type = this.GetType();
+            if (!classImage.ContainsKey(type))
+            {
                 if (baseImage != null)
                 {
-                    classImage = baseImage;
+                    classImage[type] = baseImage;
                 }
                 else
                 {
-                    classImage = null;
+                    classImage[type] = null;
                 }
             }
 
