@@ -76,7 +76,6 @@
             this.pnlMain.DragDrop += new System.Windows.Forms.DragEventHandler(this.pnlMain_DragDrop);
             this.pnlMain.DragEnter += new System.Windows.Forms.DragEventHandler(this.pnlMain_DragEnter);
             this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
-            this.pnlMain.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseClick);
             // 
             // vScrollBar1
             // 
@@ -96,6 +95,7 @@
             this.Name = "PictureItemContainer";
             this.Padding = new System.Windows.Forms.Padding(2);
             this.Size = new System.Drawing.Size(171, 183);
+            this.Load += new System.EventHandler(this.PictureItemContainer_Load);
             this.grpMain.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);

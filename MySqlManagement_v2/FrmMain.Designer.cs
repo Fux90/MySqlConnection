@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.pagMain = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.pagSql = new System.Windows.Forms.TabPage();
             this.tblSqlPage = new System.Windows.Forms.TableLayoutPanel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -49,21 +50,19 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtConsoleOutput = new System.Windows.Forms.TextBox();
             this.scintilla1 = new ScintillaNET.Scintilla();
-            this.pictureItemContainer2 = new MySqlManagement_v2.UI.PictureItemContainer();
-            this.pictureItemContainer1 = new MySqlManagement_v2.UI.PictureItemContainer();
-            this.userPictureItem1 = new MySqlManagement_v2.UI.UserPictureItem();
-            this.casePictureItem1 = new MySqlManagement_v2.UI.CasePictureItem();
-            this.lcdMonitorPictureItem1 = new MySqlManagement_v2.UI.LcdMonitorPictureItem();
+            this.monitorContainer = new MySqlManagement_v2.UI.PictureItemContainer();
+            this.caseContainer = new MySqlManagement_v2.UI.PictureItemContainer();
+            this.assigmentUserControl1 = new MySqlManagement_v2.UI.AssigmentUserControl();
+            this.userContainer = new MySqlManagement_v2.UI.PictureItemContainer();
             this.tabControl1.SuspendLayout();
             this.pagMain.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.pagSql.SuspendLayout();
             this.tblSqlPage.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scintilla1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.userPictureItem1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.casePictureItem1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lcdMonitorPictureItem1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -80,17 +79,46 @@
             // pagMain
             // 
             this.pagMain.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.pagMain.Controls.Add(this.pictureItemContainer2);
-            this.pagMain.Controls.Add(this.pictureItemContainer1);
-            this.pagMain.Controls.Add(this.userPictureItem1);
-            this.pagMain.Controls.Add(this.casePictureItem1);
-            this.pagMain.Controls.Add(this.lcdMonitorPictureItem1);
+            this.pagMain.Controls.Add(this.tableLayoutPanel1);
             this.pagMain.Location = new System.Drawing.Point(4, 22);
             this.pagMain.Name = "pagMain";
             this.pagMain.Padding = new System.Windows.Forms.Padding(3);
             this.pagMain.Size = new System.Drawing.Size(738, 436);
             this.pagMain.TabIndex = 0;
             this.pagMain.Text = "Main";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.userContainer, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.95349F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 66.04651F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(732, 430);
+            this.tableLayoutPanel1.TabIndex = 6;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 3;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.14208F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.98907F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.00546F));
+            this.tableLayoutPanel2.Controls.Add(this.monitorContainer, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.caseContainer, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.assigmentUserControl1, 1, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 146);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(732, 284);
+            this.tableLayoutPanel2.TabIndex = 0;
             // 
             // pagSql
             // 
@@ -267,63 +295,53 @@
             this.scintilla1.Styles.Max.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla1.TabIndex = 3;
             // 
-            // pictureItemContainer2
+            // monitorContainer
             // 
-            this.pictureItemContainer2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureItemContainer2.CellHeight = 80F;
-            this.pictureItemContainer2.CellWidth = 80F;
-            this.pictureItemContainer2.Location = new System.Drawing.Point(57, 137);
-            this.pictureItemContainer2.Name = "pictureItemContainer2";
-            this.pictureItemContainer2.Padding = new System.Windows.Forms.Padding(2);
-            this.pictureItemContainer2.Size = new System.Drawing.Size(329, 293);
-            this.pictureItemContainer2.TabIndex = 5;
+            this.monitorContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.monitorContainer.CellHeight = 80F;
+            this.monitorContainer.CellWidth = 80F;
+            this.monitorContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.monitorContainer.Location = new System.Drawing.Point(3, 3);
+            this.monitorContainer.Name = "monitorContainer";
+            this.monitorContainer.Padding = new System.Windows.Forms.Padding(2);
+            this.monitorContainer.Size = new System.Drawing.Size(199, 278);
+            this.monitorContainer.TabIndex = 5;
+            this.monitorContainer.Text = "Monitors";
             // 
-            // pictureItemContainer1
+            // caseContainer
             // 
-            this.pictureItemContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureItemContainer1.CellHeight = 80F;
-            this.pictureItemContainer1.CellWidth = 80F;
-            this.pictureItemContainer1.Location = new System.Drawing.Point(392, 137);
-            this.pictureItemContainer1.Name = "pictureItemContainer1";
-            this.pictureItemContainer1.Padding = new System.Windows.Forms.Padding(2);
-            this.pictureItemContainer1.Size = new System.Drawing.Size(329, 293);
-            this.pictureItemContainer1.TabIndex = 4;
+            this.caseContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.caseContainer.CellHeight = 80F;
+            this.caseContainer.CellWidth = 80F;
+            this.caseContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.caseContainer.Location = new System.Drawing.Point(529, 3);
+            this.caseContainer.Name = "caseContainer";
+            this.caseContainer.Padding = new System.Windows.Forms.Padding(2);
+            this.caseContainer.Size = new System.Drawing.Size(200, 278);
+            this.caseContainer.TabIndex = 4;
+            this.caseContainer.Text = "Pcs";
             // 
-            // userPictureItem1
+            // assigmentUserControl1
             // 
-            this.userPictureItem1.CenterPosition = new System.Drawing.Point(50, 85);
-            this.userPictureItem1.ID = "???";
-            this.userPictureItem1.Image = ((System.Drawing.Image)(resources.GetObject("userPictureItem1.Image")));
-            this.userPictureItem1.Location = new System.Drawing.Point(94, 10);
-            this.userPictureItem1.Name = "userPictureItem1";
-            this.userPictureItem1.Size = new System.Drawing.Size(201, 121);
-            this.userPictureItem1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.userPictureItem1.TabIndex = 3;
-            this.userPictureItem1.TabStop = false;
+            this.assigmentUserControl1.AssignedTo = null;
+            this.assigmentUserControl1.Location = new System.Drawing.Point(208, 3);
+            this.assigmentUserControl1.Name = "assigmentUserControl1";
+            this.assigmentUserControl1.Size = new System.Drawing.Size(315, 99);
+            this.assigmentUserControl1.Spacing = 10F;
+            this.assigmentUserControl1.TabIndex = 6;
             // 
-            // casePictureItem1
+            // userContainer
             // 
-            this.casePictureItem1.CenterPosition = new System.Drawing.Point(50, 65);
-            this.casePictureItem1.ID = "???";
-            this.casePictureItem1.Image = ((System.Drawing.Image)(resources.GetObject("casePictureItem1.Image")));
-            this.casePictureItem1.Location = new System.Drawing.Point(6, 10);
-            this.casePictureItem1.Name = "casePictureItem1";
-            this.casePictureItem1.Size = new System.Drawing.Size(80, 178);
-            this.casePictureItem1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.casePictureItem1.TabIndex = 2;
-            this.casePictureItem1.TabStop = false;
-            // 
-            // lcdMonitorPictureItem1
-            // 
-            this.lcdMonitorPictureItem1.CenterPosition = new System.Drawing.Point(50, 50);
-            this.lcdMonitorPictureItem1.ID = "???";
-            this.lcdMonitorPictureItem1.Image = ((System.Drawing.Image)(resources.GetObject("lcdMonitorPictureItem1.Image")));
-            this.lcdMonitorPictureItem1.Location = new System.Drawing.Point(332, 10);
-            this.lcdMonitorPictureItem1.Name = "lcdMonitorPictureItem1";
-            this.lcdMonitorPictureItem1.Size = new System.Drawing.Size(103, 93);
-            this.lcdMonitorPictureItem1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.lcdMonitorPictureItem1.TabIndex = 1;
-            this.lcdMonitorPictureItem1.TabStop = false;
+            this.userContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.userContainer.CellHeight = 45F;
+            this.userContainer.CellWidth = 45F;
+            this.userContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.userContainer.Location = new System.Drawing.Point(3, 3);
+            this.userContainer.Name = "userContainer";
+            this.userContainer.Padding = new System.Windows.Forms.Padding(2);
+            this.userContainer.Size = new System.Drawing.Size(726, 140);
+            this.userContainer.TabIndex = 1;
+            this.userContainer.Text = "Users";
             // 
             // FrmMain
             // 
@@ -337,6 +355,8 @@
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.tabControl1.ResumeLayout(false);
             this.pagMain.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
             this.pagSql.ResumeLayout(false);
             this.tblSqlPage.ResumeLayout(false);
             this.tblSqlPage.PerformLayout();
@@ -345,9 +365,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scintilla1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.userPictureItem1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.casePictureItem1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lcdMonitorPictureItem1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -374,11 +391,12 @@
         private System.Windows.Forms.ToolStripMenuItem loadFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem setPasswordToolStripMenuItem;
-        private UI.LcdMonitorPictureItem lcdMonitorPictureItem1;
-        private UI.CasePictureItem casePictureItem1;
-        private UI.UserPictureItem userPictureItem1;
-        private UI.PictureItemContainer pictureItemContainer1;
-        private UI.PictureItemContainer pictureItemContainer2;
+        private UI.PictureItemContainer caseContainer;
+        private UI.PictureItemContainer monitorContainer;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private UI.PictureItemContainer userContainer;
+        private UI.AssigmentUserControl assigmentUserControl1;
     }
 }
 

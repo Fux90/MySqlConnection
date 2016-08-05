@@ -37,81 +37,36 @@ namespace MySqlManagement_v2
             InitScintillaTextBox();
 
 #if DEBUG
-            var numItems = 5;
-            var rnd = new Random();
-
-            var countUser = 0;
-            var countCase = 0;
-            var countMonitor = 0;
-
-            for (int i = 0; i < numItems; i++)
-            {
-                PictureItem pic = null;
-                var id = 0;
-                var t= 1; //rnd.Next(3)
-
-                switch (t)
-                {
-                    case 0:
-                        pic = new UserPictureItem();
-                        id = countUser++;
-                        break;
-                    case 1:
-                        pic = new LcdMonitorPictureItem();
-                        id = countMonitor++;
-                        break;
-                    case 2:
-                        pic = new CasePictureItem();
-                        id = countCase++;
-                        break;
-                }
-
-                this.pictureItemContainer1.Add(pic);
-                pic.ID = String.Format("#{0}", id);    
-            }
-
-            var btn = new Button();
-            btn.Text = "Click me";
-            btn.Click += new EventHandler(btn_Click);
-
-            pagMain.Controls.Add(btn);
-            btn.Location = new Point(5, 5);
+            FillUsers();
+            FillCases();
+            FillMonitors();
 #endif
         }
 
 #if DEBUG
-        void btn_Click(object sender, EventArgs e)
+        private void FillMonitors()
         {
-            var rnd = new Random();
+            createIn(50, monitorContainer, () => new LcdMonitorPictureItem());
+        }
 
-            var countUser = 0;
-            var countCase = 0;
-            var countMonitor = 0;
+        private void FillCases()
+        {
+            createIn(30, caseContainer, () => new CasePictureItem());
+        }
 
-            for (int i = 0; i < 30; i++)
+        private void FillUsers()
+        {
+            createIn(12, userContainer, () => new UserPictureItem());
+        }
+
+        private delegate PictureItem PictureItemCreationMethod();
+        private void createIn(int howMany, PictureItemContainer container, PictureItemCreationMethod creation)
+        {
+            for (int i = 0; i < howMany; i++)
             {
-                PictureItem pic = null;
-                var id = 0;
-                var t = 2; //rnd.Next(3)
-
-                switch (t)
-                {
-                    case 0:
-                        pic = new UserPictureItem();
-                        id = countUser++;
-                        break;
-                    case 1:
-                        pic = new LcdMonitorPictureItem();
-                        id = countMonitor++;
-                        break;
-                    case 2:
-                        pic = new CasePictureItem();
-                        id = countCase++;
-                        break;
-                }
-
-                this.pictureItemContainer1.Add(pic);
-                pic.ID = String.Format("#{0}", id);
+                var pI = creation();
+                pI.ID = String.Format("#{0}", i);
+                container.Add(pI);
             }
         }
 #endif

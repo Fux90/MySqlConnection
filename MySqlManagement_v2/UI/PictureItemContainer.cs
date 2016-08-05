@@ -28,7 +28,7 @@ namespace MySqlManagement_v2.UI
             }
         }
 
-        public int VisibleRows
+        protected int VisibleRows
         {
             get
             {
@@ -46,6 +46,8 @@ namespace MySqlManagement_v2.UI
             }
         }
 
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override string Text
         {
             get
@@ -147,7 +149,7 @@ namespace MySqlManagement_v2.UI
                 var dashedPen = new Pen(Color.LightGray, 1.0f);
                 dashedPen.DashPattern = new float[]{ 3.0f, 1.0f };
 
-                drawGridding(g, dashedPen);
+                drawGrid(g, dashedPen);
             }
 
             var _size = CellSize;
@@ -176,9 +178,9 @@ namespace MySqlManagement_v2.UI
             }
         }
 
-        private void drawGridding(Graphics g, Pen pen)
+        private void drawGrid(Graphics g, Pen pen)
         {
-            horizontalLines(g, pen, Rows);
+            horizontalLines(g, pen, VisibleRows);
             verticalLines(g, pen, Columns);
         }
 
@@ -210,14 +212,6 @@ namespace MySqlManagement_v2.UI
             }
         }
 
-        private void pnlMain_MouseClick(object sender, MouseEventArgs e)
-        {
-            MessageBox.Show(String.Format("{0}{3}{1}{3}{2}", pnlMain.VerticalScroll.Value,
-                            pnlMain.VerticalScroll.Minimum,
-                            pnlMain.VerticalScroll.Maximum,
-                            Environment.NewLine));
-        }
-
         private void pnlMain_ControlAdded(object sender, ControlEventArgs e)
         {
             SetScrollOptions();
@@ -234,20 +228,40 @@ namespace MySqlManagement_v2.UI
             var vR = this.VisibleRows;
             if (r < vR)
             {
-                tableLayoutPanel1.ColumnStyles[1].Width = 0;
+                HideScrollbar();
                 this.vScrollBar1.Value = 0;
                 this.vScrollBar1.Maximum = 0;
             }
             else
             {
-                tableLayoutPanel1.ColumnStyles[1].Width = 20;
+                ShowScrollbar();
                 this.vScrollBar1.Maximum = Math.Max(0, (int)Math.Ceiling((r - vR + 1) * CellHeight));
             }
+        }
+
+        private void ShowScrollbar()
+        {
+            tableLayoutPanel1.ColumnStyles[1].Width = 20;
+        }
+
+        private void HideScrollbar()
+        {
+            tableLayoutPanel1.ColumnStyles[1].Width = 0;
         }
 
         private void vScrollBar1_ValueChanged(object sender, EventArgs e)
         {
             pnlMain.Invalidate();
+        }
+
+        private void PictureItemContainer_Load(object sender, EventArgs e)
+        {
+            var r = this.Rows;
+            var vR = this.VisibleRows;
+            if (r < vR)
+            {
+                HideScrollbar();
+            }
         }
     }
 }
